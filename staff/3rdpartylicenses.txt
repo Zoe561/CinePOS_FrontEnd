@@ -216,6 +216,8 @@ Apache-2.0
  
 
 
+share-libs
+
 tslib
 0BSD
 Copyright (c) Microsoft Corporation.
