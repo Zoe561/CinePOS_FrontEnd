@@ -66,6 +66,9 @@ MIT
 @angular/router
 MIT
 
+@nguniversal/express-engine
+MIT
+
 rxjs
 Apache-2.0
                                Apache License
