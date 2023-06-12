@@ -31,7 +31,9 @@ export class ManagerSeatchartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.createSeat(this.rows, this.cols);
+    if(this.step === 1){
+      this.createSeat(this.rows, this.cols);
+    }
 
     if(this.rowsOrder.length === 0 || this.rowsOrder.length != this.rows || this.lastType != this.type){
       this.rowsOrder = this.createRowsOrder(this.rows, this.type);
@@ -46,7 +48,9 @@ export class ManagerSeatchartComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    this.createSeat(this.rows, this.cols);
+    if(this.step === 1){
+      this.createSeat(this.rows, this.cols);
+    }
 
     if(this.rowsOrder.length === 0 || this.rowsOrder.length != this.rows || this.lastType != this.type){
       this.rowsOrder = this.createRowsOrder(this.rows, this.type);

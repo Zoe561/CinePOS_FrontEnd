@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { TheaterService } from './../services/theater.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CommonOptionSuccessDataItem } from '../../../api/cinePOS-api';
 import { CommonAPIService } from '../../../core/services/common-api/common.service';
+import { Router } from '@angular/router';
+import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
 
 
 @Component({
@@ -26,7 +29,9 @@ export class TheaterDetailPageComponent implements OnInit {
 
   constructor(
     private commonAPIService: CommonAPIService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private theaterService: TheaterService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -87,6 +92,13 @@ export class TheaterDetailPageComponent implements OnInit {
 
   step = 1; // 步驟順序
   nextStep():void {
+    if(this.step === 1){
+      this.name = this.theaterName?.value;
+      this.floor = this.theaterFloor?.value;
+      this.equipmentOption = this.theaterType?.value;
+      this.equipment = this.selectedText;
+    }
+
     if(this.step < 3){
       this.step++;
     }
@@ -123,9 +135,42 @@ export class TheaterDetailPageComponent implements OnInit {
 
   finish(): void {
     console.log("=== get result ===");
-    console.log(this.seatMap);
     console.log(this.rowLabel);
     console.log(this.colLabel);
+    console.log(this.seatMap);
+
+
+    let totalCapacity: number = 0;
+    let wheelChairCapacity: number = 0;
+    for (const seatItem of this.seatMap) {
+      if(seatItem != "N"){
+        totalCapacity++;
+      }
+
+      if(seatItem === "1"){
+        wheelChairCapacity++;
+      }
+    }
+
+    let para: any = {
+      name: this.name,
+      type: this.equipmentOption,
+      floor: this.floor,
+      totalCapacity: totalCapacity,
+      wheelChairCapacity: wheelChairCapacity,
+      row: this.rows,
+      col: this.cols,
+      rowLabel: this.rowLabel,
+      colLabel: this.colLabel,
+      seatMap: this.seatMap,
+      status: 0
+    };
+
+    this.theaterService.createTheater(para).subscribe(res => {
+      console.log('新增影廳資訊-成功res', res);
+      this.router.navigate([STATIC_ROUTES.THEATER, res.data.theater._id]);
+      alert(res.message);
+    });
   }
 
   // ————————————————————————————————  API  ————————————————————————————————

@@ -6,6 +6,7 @@ import { ManagerMovieListSuccess } from '../../../api/cinePOS-api/model/managerM
 import { MovieDetailUpdateParameter } from '../../../api/cinePOS-api/model/movieDetailUpdateParameter';
 import { MovieDetailCreateParameterCustomer, MovieDetailUpdateSuccessCustomer } from '../../../core/interface/movie';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { environment } from 'projects/manager/src/environments/environment';
 
 /** Request Method */
 export const enum HTTP_METHOD {
@@ -68,14 +69,30 @@ export class TheaterService {
       )
   }
 
-  // 新增電影資訊
-  createMovieDetail(para: MovieDetailCreateParameterCustomer): Observable<MovieDetailCreateSuccess> {
-    return this.managerService.v1ManagerMoviePost(para as MovieDetailCreateParameter)
-      .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
-        filter(res => res.code === 1)
-      )
+  // 新增影廳
+  createTheater(param: {
+    name: string,
+    type: number,
+    floor: number,
+    totalCapacity: number,
+    wheelChairCapacity: number,
+    row: number,
+    col: number,
+    rowLabel: string[],
+    colLabel: string[],
+    seatMap: string[],
+    status: number
+  }) {
+    const url = `theater`
+    return this.request(HTTP_METHOD.POST, param, url);
   }
+  // createTheater(para: MovieDetailCreateParameterCustomer): Observable<MovieDetailCreateSuccess> {
+  //   return this.managerService.v1ManagerMoviePost(para as MovieDetailCreateParameter)
+  //     .pipe(
+  //       tap(res => res.code !== 1 && alert(res.message)),
+  //       filter(res => res.code === 1)
+  //     )
+  // }
 
   // 更新電影資訊
   updateMovieDetail(para: MovieDetailUpdateParameter): Observable<MovieDetailUpdateSuccessCustomer> {
@@ -125,7 +142,7 @@ export class TheaterService {
     //   return this.closeAllAPI() as unknown as Observable<MercueResponse>;
     // } else {
     const httpHeaders = this.getHTTPHeaders();
-    const url = 'http://127.0.0.1:3005' + '/v1/manager/' + api;
+    const url = environment.cinePosApi + '/v1/manager/' + api;
 
     switch (method) {
       case HTTP_METHOD.GET:
