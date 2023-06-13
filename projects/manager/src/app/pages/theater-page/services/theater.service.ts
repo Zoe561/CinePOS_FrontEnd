@@ -60,14 +60,19 @@ export class TheaterService {
   //     )
   // }
 
-  // 取得電影資訊
-  getMovieDetail(id: string): Observable<MovieDetailGetInfoSuccess> {
-    return this.managerService.v1ManagerMovieIdGet(id)
-      .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
-        filter(res => res.code === 1)
-      )
+  // 取得影廳資訊
+  getTheaterInfo(id: string) {
+    const url = `theater/${id}`
+
+    return this.request(HTTP_METHOD.GET, {}, url);
   }
+  // getMovieDetail(id: string): Observable<MovieDetailGetInfoSuccess> {
+  //   return this.managerService.v1ManagerMovieIdGet(id)
+  //     .pipe(
+  //       tap(res => res.code !== 1 && alert(res.message)),
+  //       filter(res => res.code === 1)
+  //     )
+  // }
 
   // 新增影廳
   createTheater(param: {

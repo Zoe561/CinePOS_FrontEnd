@@ -23,6 +23,14 @@ export class ManagerSeatchartComponent implements OnInit {
   
   @Input() cols: number = 0; // col 個數
   @Input() rows: number = 0;; // row個數
+  @Input() isPreview: boolean = false; // 是否為檢視頁
+  @Input()  
+    getViewData: SeatMapData = {
+      seatMap: [],
+      rowLabel: [],
+      colLabel: []
+    };
+
   @Input() type: boolean = true; // row是英文還數字, true:英文; false:數字
   @Input() step: number = 1; // 步驟順序
 
@@ -38,16 +46,27 @@ export class ManagerSeatchartComponent implements OnInit {
     if(this.rowsOrder.length === 0 || this.rowsOrder.length != this.rows || this.lastType != this.type){
       this.rowsOrder = this.createRowsOrder(this.rows, this.type);
 
-       //記憶上次type
-       this.lastType = this.type;
+      //記憶上次type
+      this.lastType = this.type;
     } 
 
     if(this.colsOrder.length === 0 || this.colsOrder.length != this.cols){
       this.colsOrder = this.createRowsOrder(this.cols, false);
     } 
+
+    if(this.isPreview){
+    
+      console.log(this.getViewData);
+
+      this.responseArr = this.getViewData.seatMap;
+      this.rowsOrder = this.getViewData.rowLabel;
+      this.colsOrder = this.getViewData.colLabel;
+      this.step = 4;
+    }
   }
 
   ngOnChanges(): void {
+    
     if(this.step === 1){
       this.createSeat(this.rows, this.cols);
     }
@@ -62,6 +81,17 @@ export class ManagerSeatchartComponent implements OnInit {
     if(this.colsOrder.length === 0 || this.colsOrder.length != this.cols){
       this.colsOrder = this.createRowsOrder(this.cols, false);
     } 
+
+
+    if(this.isPreview){
+    
+      console.log(this.getViewData);
+
+      this.responseArr = this.getViewData.seatMap;
+      this.rowsOrder = this.getViewData.rowLabel;
+      this.colsOrder = this.getViewData.colLabel;
+      this.step = 4;
+    }
   }
 
   trackByIndex(index: number, item: any): number {
