@@ -21,25 +21,25 @@
     //   location.replace(redirectTo);
     // })();
 
-    // (function () {
-    //   sessionStorage.redirect = location.href;
-    //   var redirectTo = "/intro/";
-    //   var title = "CinePosLandingPage";
+    (function () {
+      sessionStorage.redirect = location.href;
+      var redirectTo = "/intro/";
+      var title = "CinePosLandingPage";
 
-    //   if (location.pathname.startsWith("/manager/")) {
-    //     redirectTo = "/manager/";
-    //     title = "CineBack";
-    //   } else if (location.pathname.startsWith("/staff/")) {
-    //     redirectTo = "/staff/";
-    //     title = "CineFront";
-    //   }else if (location.pathname.startsWith("/intro/")) {
-    //     redirectTo = "/intro/";
-    //     title = "CinePosLandingPage";
-    //   }
+      if (location.pathname.startsWith("/manager/")) {
+        redirectTo = "/manager/";
+        title = "CineBack";
+      } else if (location.pathname.startsWith("/staff/")) {
+        redirectTo = "/staff/";
+        title = "CineFront";
+      }else if (location.pathname.startsWith("/intro/")) {
+        redirectTo = "/intro/";
+        title = "CinePosLandingPage";
+      }
 
-    //   document.title = title;
-    //   location.replace(redirectTo);
-    // })();
+      document.title = title;
+      location.replace(redirectTo);
+    })();
   </script>
   <meta http-equiv="refresh" content="" />
 </head>
