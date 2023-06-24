@@ -1,3 +1,10 @@
-<div *ngIf="isLoading" class="loading-overlay">
+<!-- <div *ngIf="isLoading" class="loading-overlay">
     <div class="spinner"></div>
-</div>
+</div> -->
+
+<section *ngIf="isLoading" class="loading-overlay">
+    <div class="fade-animate">
+        <img src="./assets/images/icon/film.png" alt="film-icon">
+        <div style="color: white;text-align: center;margin-top: 8px;">Loading...</div>
+    </div>
+</section>
