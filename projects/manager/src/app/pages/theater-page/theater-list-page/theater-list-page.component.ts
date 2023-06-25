@@ -6,6 +6,8 @@ import { CinePageSet } from '../../../share/pagination/page-set';
 import { CommonAPIService } from '../../../core/services/common-api/common.service';
 import { Router } from '@angular/router';
 import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-theater-list-page',
@@ -121,15 +123,32 @@ export class TheaterListPageComponent implements OnInit {
 
   // 前往編輯頁
   openEditPage(_id: string | undefined) {
-    this.router.navigate([STATIC_ROUTES.THEATER, STATIC_ROUTES.DETAIL, STATIC_ROUTES.EDIT , _id]);
+    
+    // 取得影廳使用狀況(是否有被時刻表使用)
+    this.getTheaterUsageAPI(_id as string).subscribe(inUse => {
+      if (inUse) {
+        alert("影廳使用中無法編輯");
+      } else {
+        this.router.navigate([STATIC_ROUTES.THEATER, STATIC_ROUTES.DETAIL, STATIC_ROUTES.EDIT , _id]);
+      }
+    });
   }
 
   // 刪除影廳
   deleteTheater(theaterId: string | undefined) {
-    this.theaterService.deleteTheater((theaterId as string)).subscribe(res => {
-      console.log('刪除影廳-成功res', res);
-      alert("刪除影廳-成功");
-      this.getListAPI(this.getSearchCondition());
+    let id: string = theaterId as string;
+    
+    // 取得影廳使用狀況(是否有被時刻表使用)
+    this.getTheaterUsageAPI(id).subscribe(inUse => {
+      if (inUse) {
+        alert("影廳使用中無法刪除");
+      } else {
+        this.theaterService.deleteTheater(id).subscribe(res => {
+          console.log('刪除影廳-成功res', res);
+          alert("刪除影廳-成功");
+          this.getListAPI(this.getSearchCondition());
+        });
+      }
     });
   }
 
@@ -141,11 +160,27 @@ export class TheaterListPageComponent implements OnInit {
       status: status,
     };
 
-    this.theaterService.updateStatus( id, para).subscribe(res => {
-      console.log('更新上架狀態-成功res', res);
-      alert("更新上架狀態-成功");
-      this.getListAPI(this.getSearchCondition());
-    });
+    if(!status){
+
+      // 取得影廳使用狀況(是否有被時刻表使用)
+      this.getTheaterUsageAPI(id).subscribe(inUse => {
+        if (inUse) {
+          alert("影廳使用中無法下架");
+        } else {
+          this.theaterService.updateStatus(id, para).subscribe(res => {
+            console.log('更新上架狀態-成功res', res);
+            alert("更新上架狀態-成功");
+            this.getListAPI(this.getSearchCondition());
+          });
+        }
+      });
+    }else{
+      this.theaterService.updateStatus(id, para).subscribe(res => {
+        console.log('更新上架狀態-成功res', res);
+        alert("更新上架狀態-成功");
+        this.getListAPI(this.getSearchCondition());
+      });
+    }
   }
 
   // ————————————————————————————————  API  ————————————————————————————————
@@ -172,5 +207,15 @@ export class TheaterListPageComponent implements OnInit {
       this.pageSet1.initialize(this.theaterListApiData.length);
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  // API- 查詢影廳使用狀況
+  getTheaterUsageAPI(theaterId: string) {
+    return this.theaterService.getTheaterUsage(theaterId).pipe(
+      switchMap(res => {
+        console.log(theaterId, '取得影廳使用狀況-成功res', res);
+        return of(res.data ? res.data.inUse : false);
+      })
+    );
   }
 }
