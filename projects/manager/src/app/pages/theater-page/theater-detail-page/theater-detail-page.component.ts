@@ -211,8 +211,8 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
           return;
         }
 
-        if(!this.inputValidator("row", 5, 26)){
-          alert("直排格數須介於5~26之間");
+        if(!this.inputValidator("row", 5, 15)){
+          alert("直排格數須介於5~15之間");
           return;
         }
 
