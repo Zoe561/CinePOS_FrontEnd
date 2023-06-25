@@ -1,10 +1,9 @@
-
 <div class="flex items-center justify-between p-3 rounded-2xl border border-light-600 w-60 my-5">
-  <p>
+  <p class="w-14">
     {{ticketItem.type}}
   </p>
   <span>
-    {{ticketItem.price}}
+    {{ticketItem.price | toThousand}}
   </span>
   <span (click)="changeTicketCounts(-1)">
     <i class="fa-solid fa-minus text-3xl text-light-300"></i>
@@ -16,4 +15,3 @@
     <i class="fa-solid fa-plus text-3xl text-light-300"></i>
   </span>
 </div>
-

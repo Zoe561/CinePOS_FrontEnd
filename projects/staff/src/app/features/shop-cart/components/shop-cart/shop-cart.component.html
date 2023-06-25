@@ -30,7 +30,7 @@
       <p class="text-xs text-light-400">總計</p>
       <p class="flex justify-between items-center mt-2">
         <span>NTD</span>
-        <span>{{ getTotal() }}</span>
+        <span>{{ getTotal() | toThousand }}</span>
       </p>
     </li>
 
