@@ -16,8 +16,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 使用 語意化版本 2.0.0 `https://semver.org/lang/zh-TW/`
 
 Run `npm run build:patch` to build the project. The build artifacts will be stored in the `dist/CinePOS_FrontEnd/staff` directory and `dist/CinePOS_FrontEnd/manager`.
-Run `npm run build:front:patch` to build the project. The build artifacts will be stored in the `dist/CinePOS_FrontEnd/staff` directory.
-Run `npm run build:back:patch` to build the project. The build artifacts will be stored in the `dist/CinePOS_FrontEnd/` directory.
 
 ## Deploy
 
