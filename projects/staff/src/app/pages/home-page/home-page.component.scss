@@ -1,0 +1,18 @@
+@keyframes scaleRotate {
+  0% {
+    transform: scale(1) rotate(0deg); /* 開始時的大小和旋轉角度 */
+  }
+  50% {
+    transform: scale(1.5) rotate(-10deg); /* 中間時的放大比例和旋轉角度 */
+  }
+  100% {
+    transform: scale(1) rotate(0deg); /* 結束時的大小和旋轉角度 */
+  }
+}
+
+.text-animation {
+  animation-name: scaleRotate; /* 使用上述定義的動畫 */
+  animation-duration: 1s; /* 動畫的持續時間 */
+  // animation-iteration-count: infinite; /* 無限循環播放動畫 */
+  animation-direction: alternate; /* 往返循環播放動畫 */
+}

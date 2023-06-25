@@ -28,10 +28,12 @@
               "projects/staff/src/assets"
             ],
             "styles": [
-              "projects/staff/src/styles/styles.scss"
+              "projects/staff/src/styles/styles.scss",
+              "node_modules/aos/dist/aos.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/aos/dist/aos.js"
             ]
           },
           "configurations": {

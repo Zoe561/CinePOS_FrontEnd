@@ -40,6 +40,13 @@ button{
   }
   &.mat-button-disabled{
     background: rgba(255, 255, 255, 0.12) !important;
+    .mat-button-wrapper{
+      color: rgba(255, 255, 255, 0.3) !important;
+    }
+  }
+  &.valid-form {
+    animation: enableButton 0.5s forwards;
+    transition: background-color 0.5s ease-in-out;
   }
   &.mat-warn{
     background: theme('colors.warn.400');
@@ -73,3 +80,17 @@ button{
 
 }
 
+@keyframes enableButton {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    // filter: brightness(150%);
+    filter: contrast(200%);
+  }
+  100% {
+    // filter: brightness(100%);
+    filter: contrast(100%);
+    opacity: 1;
+  }
+}

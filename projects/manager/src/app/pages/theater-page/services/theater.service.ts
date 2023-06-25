@@ -53,6 +53,13 @@ export class TheaterService {
     return this.request(HTTP_METHOD.GET, {}, url);
   }
 
+  // 取得影廳使用狀況(是否有被時刻表使用)
+  getTheaterUsage(id: string) {
+    const url = `theater/${id}/usage`
+
+    return this.request(HTTP_METHOD.GET, {}, url);
+  }
+
   // 新增影廳
   createTheater(param: {
     name: string,

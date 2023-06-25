@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { STATIC_ROUTES } from '../../core/constant/routes.constant';
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-home-page',
@@ -11,6 +12,7 @@ export class HomePageComponent implements OnInit {
   constructor() { }
   STATIC_ROUTES = STATIC_ROUTES;
   ngOnInit(): void {
+    AOS.init();
   }
 
 }
