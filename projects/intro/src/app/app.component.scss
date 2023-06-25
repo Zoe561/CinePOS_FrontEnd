@@ -3,6 +3,10 @@ a{
     text-decoration:none;
   }
 
+  main{
+    overflow: hidden;
+  }
+
   .header-bg{
     background: #151515;
     opacity: 0.8;
@@ -185,20 +189,28 @@ a{
     height: 380px;
     border-radius: 12px;
     background-repeat: no-repeat; /* 設定背景重複方式 */
-    background-position: bottom -50px right -50px; /* 設定背景位置 */
+    background-position: bottom -105px right -105px; /* 設定背景位置 */
     background-size: contain; /* 設定背景尺寸 */
-
+    backdrop-filter: blur(10px); /* 設定模糊效果 */
+    opacity: 0.6;
   }
 
   .experience-box:hover{
     cursor: pointer;
   }
   .experience-box-light{
-    background-image: url('../assets/images/icon/logo-light.svg');
+    background-image: url('../assets/images/logo/logo-backend.png');
+
+
   }
 
   .experience-box-dark{
-    background-image: url('../assets/images/icon/logo-dark.svg');
+    background-image: url('../assets/images/logo/logo-front.png');
+  }
+
+
+  .experience-box:hover{
+    opacity: 1;
   }
 
 
@@ -310,6 +322,7 @@ a{
   }
 
   @media (max-width: 990px) {
+
     .cont-icon-statistics{
       width: 400px;
     }
@@ -318,30 +331,72 @@ a{
     }
 
     .home-bg-banner, .container-features{
-      min-height: 1000px;
+      min-height: 750px;
     }
 
     .container-features{
       position: relative;
     }
 
+    .pross-nav-container{
+      width: auto;
+      max-width: 100%;
+    }
+
     .container-features-text{
       position: absolute;
-      top:600px;
+      top:400px;
     }
 
     .container-features-img{
       position: absolute;
-      right: -200px;
-      top:0;
+      right: -160px;
+      top:80px;
       img{
-        width: 460px;
+        width: 380px;
       }
     }
+
+    .container-team{
+      padding: 35px 0;
+    }
+
+
+    .team-nav{
+      li{
+        width: 380px;
+        margin: 15px 9px;
+        padding: 20px;
+      }
+    }
+
+    .experience-box{
+      height: 200px;
+    }
+
+    .experience-box-title{
+      height: auto;
+    }
+
+    .experience-box{
+      background-position: bottom -105px right -20px; /* 設定背景位置 */
+      background-size: contain;
+    }
+
   }
 
 
   @media (max-width: 576px) {
+
+    .container-features-img{
+
+      position: absolute;
+      right: -120px;
+      img{
+        width: 300px;
+      }
+    }
+
 
     .pross-cont-img{
       height: 230px;
@@ -353,5 +408,7 @@ a{
       z-index: -1;
       right: -200px;
     }
+
+
 
   }
