@@ -27,7 +27,7 @@
     <div class="flex justify-between items-center">
       <span class="text-xs text-light-300">小計</span>
       <div>
-        NTD {{ getSubtotal() }}
+        NTD {{ getSubtotal()| toThousand }}
       </div>
     </div>
   </div>

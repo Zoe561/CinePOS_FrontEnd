@@ -6,6 +6,7 @@ import { MovieTimeComponent } from './components/movie-time/movie-time.component
 import { StepperComponent } from './components/stepper/stepper.component';
 import { TicketSelectComponent } from './components/ticket-select/ticket-select.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ShareLibsModule } from 'projects/share-libs/src/public-api';
 
 const materialModules = [
   MatIconModule
@@ -21,7 +22,8 @@ const materialModules = [
   ],
   imports: [
     CommonModule,
-    ...materialModules
+    ...materialModules,
+    ShareLibsModule
   ],
   exports: [
     DateSelectComponent,
