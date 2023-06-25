@@ -2,5 +2,5 @@
   [class.date-active]="isActive" (click)="dateOutput()">
   {{ date| date:'M/d' }}
   <br>
-  {{ dateIndex === 0 ? '今日' : weekdays[date.getDay()] }}
+  {{ weekdays[date.getDay()] }}
 </div>

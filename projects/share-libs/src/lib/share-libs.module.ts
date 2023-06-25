@@ -15,6 +15,8 @@ import { LoadingInterceptor } from './features/loading/loading.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { TextDialogComponent } from './features/text-dialog/components/text-dialog.component';
+import { ToThousandPipe } from './core/pipe/to-thousand/to-thousand.pipe';
+
 
 
 const materialModules = [
@@ -32,6 +34,7 @@ const materialModules = [
     LoginComponent,
     LoadingComponent,
     TextDialogComponent,
+    ToThousandPipe,
   ],
   imports: [
     CommonModule,
@@ -44,6 +47,7 @@ const materialModules = [
     LoginComponent,
     LoadingComponent,
     TextDialogComponent,
+    ToThousandPipe
   ],
   providers:[
     LoadingService,
