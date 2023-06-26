@@ -229,27 +229,24 @@ a{
     background-image: url('../assets/images/logo/logo-front.png');
   }
 
-
   .experience-box:hover{
     opacity: 1;
   }
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+  }
 
-
+  .shake-element {
+    animation: shake 0.8s infinite;
+  }
   .experience-title{
     position: relative;
   }
-  .experience-title::after{
-    content: url("../assets/images/icon/arrow-right.svg"); /* 设置图标图片的路径 */
-    display: inline-flex;
-    width: 22px; /* 图片的宽度 */
-    height: 22px; /* 图片的高度 */
-    margin-right: 15px; /* 可选的，设置图标与文本之间的间距 */
-    position: absolute;
-    top: 5px;
-  }
+
 
   footer{
-    min-height: 100px;
     background: transparent;
     display: flex;
     justify-content: center;
@@ -294,6 +291,7 @@ a{
       overflow: hidden;
       min-height: 608px;
     }
+
     .bg-statistics{
       position: absolute;
       z-index: -1;
@@ -303,7 +301,7 @@ a{
       min-height: 608px;
       position: absolute;
       z-index: 1;
-      background: linear-gradient(180deg, rgba(21, 21, 21, 0.9) 0%, rgba(21, 21, 21, 0) 100%);
+      // background: linear-gradient(180deg, rgba(21, 21, 21, 0.9) 0%, rgba(21, 21, 21, 0) 100%);
       width: 100%;
     }
 
@@ -417,6 +415,9 @@ a{
     }
     .gradient-text{
       width: 100% !important;
+    }
+    .w-auto{
+      width: auto !important;
     }
     .container-features-img{
 
