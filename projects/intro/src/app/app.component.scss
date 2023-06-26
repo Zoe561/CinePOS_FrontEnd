@@ -7,6 +7,25 @@ a{
     overflow: hidden;
   }
 
+  .bar{
+    width: 35px;
+    height: 2px;
+    background-color: #919191;
+    margin: 10px 0;
+    transition: 0.4s;
+  }
+
+  .change{
+    .bar1{
+      transform: translate(0, 3px) rotate(-45deg);
+    }
+    .bar2{
+      transform: translate(0, -8px) rotate(45deg);
+    }
+  }
+  .border-gray{
+    border-color: transparent !important;
+  }
   .header-bg{
     background: #151515;
     opacity: 0.8;
@@ -23,7 +42,7 @@ a{
   .multiple-bg {
     background-image: url('../assets/images/bg/bg2.png'), url('../assets/images/bg/bg3.png'); /* 設定多個背景圖片 */
     background-repeat: no-repeat, no-repeat, no-repeat; /* 設定背景重複方式 */
-    background-position: top 300px left -100px, top -80px right 15%; /* 設定背景位置 */
+    background-position: top 300px left -100px, top -1px right 15%; /* 設定背景位置 */
     background-size: 243px, 200px; /* 設定背景尺寸 */
     backdrop-filter: blur(10px); /* 設定模糊效果 */
   }
@@ -54,7 +73,7 @@ a{
   }
 
   .navbar-nav{
-    min-width: 400px;
+    // min-width: 400px;
   }
 
   .pross-nav-container{
@@ -183,7 +202,9 @@ a{
     background-image: url('../assets/images/team/image_cute zoe_round@3x.png');
   }
 
-
+  .big-text{
+    font-size: 1.3125rem !important;
+  }
   .experience-box{
     width: 323px;
     height: 380px;
@@ -331,7 +352,7 @@ a{
     }
 
     .home-bg-banner, .container-features{
-      min-height: 750px;
+      min-height: 715px;
     }
 
     .container-features{
@@ -346,6 +367,7 @@ a{
     .container-features-text{
       position: absolute;
       top:400px;
+      left: 0px;
     }
 
     .container-features-img{
@@ -387,7 +409,15 @@ a{
 
 
   @media (max-width: 576px) {
-
+    .border-gray{
+      border-color: rgba(94, 94, 94, 0.3) !important;
+    }
+    .big-text{
+      font-size: 1.3125rem !important;
+    }
+    .gradient-text{
+      width: 100% !important;
+    }
     .container-features-img{
 
       position: absolute;
