@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'intro';
-
+  isChange = false;
   frontURL = "https://www.cine-pos.com/staff/login";
   backendURL = "https://www.cine-pos.com/manager/login";
 }
