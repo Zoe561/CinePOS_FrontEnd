@@ -5,6 +5,7 @@ import { ThemePalette } from '@angular/material/core';
 import { PatchOrderReqInner, PatchSeatReqInner, PatchTicketReqInner, StaffOrderSearchSuccessDataTicketList } from '../../api/cinePOS-api';
 import { Subject, takeUntil } from 'rxjs';
 import { mongoIdFormatValidator } from '../../core/validators/mongo-id-format.validator';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 export interface Task {
   name: string;
   completed: boolean;
@@ -125,6 +126,7 @@ export class RefundPageComponent implements OnInit {
   constructor(
     private refundService: RefundService,
     private fb: UntypedFormBuilder,
+    private textDialogService:TextDialogService
   ) { }
 
   ngOnInit(): void {
@@ -201,7 +203,12 @@ export class RefundPageComponent implements OnInit {
         takeUntil(this.onDestroy$)
       ).subscribe(()=>{
         this.checkData = [];
-        alert('已完成退票!');
+        this.textDialogService.openSuccessDialog(
+          {
+            title: '成功訊息',
+            content: '退票成功'
+          }
+        );
       })
 
   }
