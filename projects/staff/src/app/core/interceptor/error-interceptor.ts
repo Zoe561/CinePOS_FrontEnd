@@ -20,7 +20,7 @@ export class ErrorHeaderInterceptor implements HttpInterceptor {
           catchError((err: HttpErrorResponse) => {
             this.textDialogService.openErrorDialog(
               {
-                title: '錯誤',
+                title: '錯誤訊息',
                 content: err.error.message!
               }
             )

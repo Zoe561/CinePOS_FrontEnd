@@ -9,6 +9,7 @@ import { MovieDetailCreateSuccess } from '../../../api/cinePOS-api/model/movieDe
 import { MovieDetailCreateParameter } from '../../../api/cinePOS-api/model/movieDetailCreateParameter';
 import { MovieDetailDeleteSuccess } from '../../../api/cinePOS-api/model/movieDetailDeleteSuccess';
 import { MovieStatusPara } from '../../../api/cinePOS-api/model/movieStatusPara';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,20 @@ import { MovieStatusPara } from '../../../api/cinePOS-api/model/movieStatusPara'
 export class MoviePageService {
 
   constructor(
-    private _ManagerService: ManagerService
+    private _ManagerService: ManagerService,
+    private textDialogService: TextDialogService
   ) { }
 
   // 更新電影資訊
   getMovieList(status: number, searchDateS: string, searchDateE: string, title: string): Observable<ManagerMovieListSuccess> {
     return this._ManagerService.v1ManagerMovieListGet(status, searchDateS, searchDateE, title)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '更新電影資訊錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -34,7 +41,12 @@ export class MoviePageService {
   getMovieDetail(id: string): Observable<MovieDetailGetInfoSuccess> {
     return this._ManagerService.v1ManagerMovieIdGet(id)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '取得電影資訊錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -44,7 +56,12 @@ export class MoviePageService {
   createMovieDetail(para: MovieDetailCreateParameterCustomer): Observable<MovieDetailCreateSuccess> {
     return this._ManagerService.v1ManagerMoviePost(para as MovieDetailCreateParameter)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '新增電影資訊錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -54,7 +71,12 @@ export class MoviePageService {
   updateMovieDetail(para: MovieDetailUpdateParameter): Observable<MovieDetailUpdateSuccessCustomer> {
     return (this._ManagerService.v1ManagerMoviePatch(para) as Observable<MovieDetailUpdateSuccessCustomer>)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '更新電影資訊錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -65,7 +87,12 @@ export class MoviePageService {
   updateReleaseStatus(para: MovieStatusPara): Observable<MovieDetailDeleteSuccess> {
     return this._ManagerService.v1ManagerMovieStatusPut(para)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '更新電影狀態錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -76,7 +103,12 @@ export class MoviePageService {
   deleteMovie(movieId: string): Observable<MovieDetailDeleteSuccess> {
     return this._ManagerService.v1ManagerMovieIdDelete(movieId)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '刪除電影錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }

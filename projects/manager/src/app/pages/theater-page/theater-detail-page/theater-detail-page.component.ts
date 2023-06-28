@@ -8,6 +8,7 @@ import { Step2Component } from './step/components/step2/step2.component';
 import { SeatSettingType } from '../../../features/manager-seatchart/enums/seat-setting.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 type ACTION_CONFIG = 'next' | 'back' | 'finish';
 
@@ -40,7 +41,8 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
     private theaterService: TheaterService,
     private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private textDialogService: TextDialogService
   ) { }
 
   ngOnInit(): void {
@@ -124,7 +126,7 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
 
   // 直排排號判斷: 暫時抓第rowLabel裡的資料來判斷
   parseTheaterType(data: any): boolean{
-    
+
     const arr = data;
 
     // 篩選出英文字母
@@ -133,7 +135,7 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
     const numbers = arr.filter((item: string) => /\d/.test(item));
     // 判斷英文字母數量是否比數字多
     const isMoreLetters = letters.length > numbers.length;
-  
+
     return isMoreLetters;
   }
 
@@ -179,7 +181,7 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
 
   // 驗證
   inputValidator(key:string, min: number, max: number): boolean {
-    
+
     let returnValue = true;
     switch(key){
       case "name":
@@ -198,7 +200,7 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
           }
         break;
     }
-    
+
     return returnValue;
   }
 
@@ -207,22 +209,46 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
     switch (this.step) {
       case Step.createMap:
         if(!this.inputValidator("name", 1, -1)){
-          alert("影廳名稱須為1以上");
+
+          this.textDialogService.openErrorDialog(
+            {
+              title: '錯誤訊息',
+              content: '影廳名稱須為1以上'
+            }
+          );
           return;
         }
 
         if(!this.inputValidator("row", 5, 15)){
-          alert("直排格數須介於5~15之間");
+
+          this.textDialogService.openErrorDialog(
+            {
+              title: '錯誤訊息',
+              content: '直排格數須介於5~15之間'
+            }
+          );
           return;
         }
 
         if(!this.inputValidator("col", 5, 35)){
-          alert("橫排格數須介於5~35之間");
+
+          this.textDialogService.openErrorDialog(
+            {
+              title: '錯誤訊息',
+              content: '橫排格數須介於5~35之間'
+            }
+          );
           return;
         }
 
         if(this.formGroup.invalid){
-          alert("請填寫所有欄位");
+
+          this.textDialogService.openErrorDialog(
+            {
+              title: '錯誤訊息',
+              content: '請填寫所有欄位'
+            }
+          );
           return;
         }
 
@@ -367,7 +393,7 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
         console.log(res)
         this.changeDetectorRef.detectChanges();
         this.setForm(res.data);
-  
+
         //直接去第二步
         this.nextStep();
       });
@@ -379,7 +405,13 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
     this.theaterService.createTheater(para).subscribe(res => {
       console.log('新增影廳資訊-成功res', res);
       this.router.navigate([STATIC_ROUTES.THEATER, res.data.theater._id]);
-      alert(res.message);
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '新增影廳錯誤',
+          content: res.message!
+        }
+      );
     });
   }
 
@@ -388,7 +420,13 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
     this.theaterService.updateTheater(this.theaterId, para).subscribe(res => {
       console.log('更新影廳資訊-成功res', res);
       this.router.navigate([STATIC_ROUTES.THEATER, this.theaterId]);
-      alert(res.message);
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '更新影廳錯誤',
+          content: res.message!
+        }
+      );
     });
   }
 }

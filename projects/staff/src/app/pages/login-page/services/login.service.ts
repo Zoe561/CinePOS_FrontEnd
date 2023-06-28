@@ -23,7 +23,7 @@ export class LoginService {
       .pipe(
         tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
           {
-            title: '登入錯誤',
+            title: '登入失敗',
             content: res.message!
           }
         )),

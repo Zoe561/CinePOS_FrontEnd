@@ -7,6 +7,7 @@ import { StorageService } from '../../../core/services/storage/storage.service';
 import { ProfileData } from '../../../core/models/profile-data.model';
 import { Router } from '@angular/router';
 import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,19 @@ export class LoginService {
   constructor(
     private managerService: ManagerService,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
+    private textDialogService:TextDialogService
   ) { }
 
   login$(LoginReq: { staffId: string, password: string }): Observable<LoginRes> {
     return this.managerService.v1ManagerLoginPost(LoginReq)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '登入失敗',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1),
         tap((res) => {
           if (res.data) {

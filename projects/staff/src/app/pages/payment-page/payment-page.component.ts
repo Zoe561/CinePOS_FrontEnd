@@ -216,7 +216,7 @@ export class PaymentPageComponent implements OnInit,OnDestroy {
         /** 付款金額不足 */
         this.textDialogService.openErrorDialog(
           {
-            title: '錯誤',
+            title: '錯誤訊息',
             content: '付款金額不足, 請輸入付款金額'
           }
         )
@@ -226,7 +226,7 @@ export class PaymentPageComponent implements OnInit,OnDestroy {
       /** 購物車為空 */
       this.textDialogService.openErrorDialog(
         {
-          title: '錯誤',
+          title: '錯誤訊息',
           content: '購物車為空, 請重新選擇商品'
         }
       )
@@ -288,7 +288,7 @@ export class PaymentPageComponent implements OnInit,OnDestroy {
     if(prePayTotal > 100000){
       this.textDialogService.openErrorDialog(
         {
-          title: '錯誤',
+          title: '錯誤訊息',
           content: '付款金額不得大於100,000元'
         }
       )

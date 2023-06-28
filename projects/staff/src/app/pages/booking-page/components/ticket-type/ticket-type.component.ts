@@ -58,7 +58,7 @@ export class TicketTypeComponent implements OnInit {
     if (this.ticketData.length <= 0) {
       this.textDialogService.openErrorDialog(
         {
-          title: '錯誤',
+          title: '錯誤訊息',
           content: '請選擇票種&票數'
         }
       );

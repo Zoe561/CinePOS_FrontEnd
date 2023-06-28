@@ -18,6 +18,10 @@ export class TextDialogService {
 
   /**開啟純文字彈跳視窗 */
   openTextDialog(textDialogData:TextDialogData): void{
+    textDialogData.title = `<p class="text-center flex justify-center items-center">
+    ${textDialogData.title}</p>`;
+
+    textDialogData.content = `<p class="text-center">${textDialogData.content?? '未知訊息'}</p>`;
     this.dialog.open(TextDialogComponent, {
         width: '450px',
         data: textDialogData

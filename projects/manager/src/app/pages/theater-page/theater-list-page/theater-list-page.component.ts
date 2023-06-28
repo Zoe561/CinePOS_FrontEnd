@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Component({
   selector: 'app-theater-list-page',
@@ -15,14 +16,14 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./theater-list-page.component.scss']
 })
 export class TheaterListPageComponent implements OnInit {
-  
+
   formGroup!: FormGroup;
   theaterListView: any[] = [];                           // 列表- 資料(顯示用)
   pageSet1 = new CinePageSet();
 
   /* API */
-  typeOptions: CommonOptionSuccessDataItem[] = []; 
-  theaterListApiData: any[] = [];                // API- 影廳列表(原始資料)  
+  typeOptions: CommonOptionSuccessDataItem[] = [];
+  theaterListApiData: any[] = [];                // API- 影廳列表(原始資料)
   dialog: any;
 
   /* 表單取值 */
@@ -38,15 +39,16 @@ export class TheaterListPageComponent implements OnInit {
     private router: Router,
     private commonAPIService: CommonAPIService,
     private theaterService: TheaterService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private textDialogService: TextDialogService
   ) { }
 
   ngOnInit(): void {
-    
+
     this.initForm();
 
     //取得影廳類型資料
-    this.getOptionAPI(2);  
+    this.getOptionAPI(2);
 
     this.search();
   }
@@ -74,7 +76,13 @@ export class TheaterListPageComponent implements OnInit {
 
     } else {
       this.formGroup.markAllAsTouched();
-      alert("請檢查欄位是否正確填寫！");
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請檢查欄位是否正確填寫！'
+        }
+      );
     };
   }
 
@@ -123,11 +131,17 @@ export class TheaterListPageComponent implements OnInit {
 
   // 前往編輯頁
   openEditPage(_id: string | undefined) {
-    
+
     // 取得影廳使用狀況(是否有被時刻表使用)
     this.getTheaterUsageAPI(_id as string).subscribe(inUse => {
       if (inUse) {
-        alert("影廳使用中無法編輯");
+
+        this.textDialogService.openErrorDialog(
+          {
+            title: '錯誤訊息',
+            content: '影廳使用中無法編輯'
+          }
+        );
       } else {
         this.router.navigate([STATIC_ROUTES.THEATER, STATIC_ROUTES.DETAIL, STATIC_ROUTES.EDIT , _id]);
       }
@@ -137,15 +151,27 @@ export class TheaterListPageComponent implements OnInit {
   // 刪除影廳
   deleteTheater(theaterId: string | undefined) {
     let id: string = theaterId as string;
-    
+
     // 取得影廳使用狀況(是否有被時刻表使用)
     this.getTheaterUsageAPI(id).subscribe(inUse => {
       if (inUse) {
-        alert("影廳使用中無法刪除");
+
+        this.textDialogService.openErrorDialog(
+          {
+            title: '錯誤訊息',
+            content: '影廳使用中無法刪除'
+          }
+        );
       } else {
         this.theaterService.deleteTheater(id).subscribe(res => {
           console.log('刪除影廳-成功res', res);
-          alert("刪除影廳-成功");
+
+          this.textDialogService.openSuccessDialog(
+            {
+              title: '成功訊息',
+              content: '刪除影廳-成功'
+            }
+          );
           this.getListAPI(this.getSearchCondition());
         });
       }
@@ -165,11 +191,23 @@ export class TheaterListPageComponent implements OnInit {
       // 取得影廳使用狀況(是否有被時刻表使用)
       this.getTheaterUsageAPI(id).subscribe(inUse => {
         if (inUse) {
-          alert("影廳使用中無法下架");
+
+          this.textDialogService.openErrorDialog(
+            {
+              title: '錯誤訊息',
+              content: '影廳使用中無法下架'
+            }
+          );
         } else {
           this.theaterService.updateStatus(id, para).subscribe(res => {
             console.log('更新上架狀態-成功res', res);
-            alert("更新上架狀態-成功");
+
+            this.textDialogService.openSuccessDialog(
+              {
+                title: '成功訊息',
+                content: '更新上架狀態-成功'
+              }
+            );
             this.getListAPI(this.getSearchCondition());
           });
         }
@@ -177,7 +215,13 @@ export class TheaterListPageComponent implements OnInit {
     }else{
       this.theaterService.updateStatus(id, para).subscribe(res => {
         console.log('更新上架狀態-成功res', res);
-        alert("更新上架狀態-成功");
+
+        this.textDialogService.openSuccessDialog(
+          {
+            title: '成功訊息',
+            content: '更新上架狀態-成功'
+          }
+        );
         this.getListAPI(this.getSearchCondition());
       });
     }
