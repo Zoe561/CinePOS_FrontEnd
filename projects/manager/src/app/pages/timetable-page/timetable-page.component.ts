@@ -8,6 +8,7 @@ import { MoviePageService } from '../movie-page/services/movie-page.service';
 import { ManagerMovieListSuccessDataInner, TimetableCreateReq } from '../../api/cinePOS-api';
 import { ManagerMovieListSuccessDataInnerCustomer } from '../../core/interface/movie';
 import { RatePipe } from './pipe/rate.pipe';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Component({
   selector: 'app-timetable-page',
@@ -41,7 +42,8 @@ export class TimetablePageComponent implements OnInit {
 
   constructor(
     private timetableService: TimetableService,
-    private movieService: MoviePageService
+    private movieService: MoviePageService,
+    private textDialogService: TextDialogService
   ) {
     this.onAppointmentAdd = this.onAppointmentAdd.bind(this);
   }
@@ -87,21 +89,39 @@ export class TimetablePageComponent implements OnInit {
     const isCineTypeMatch = this.isCineTypeMatch(param.theaterId, param.movieId);
     if (!isCineTypeMatch) {
       event.cancel = true;
-      alert('該廳不支援此電影類型');
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '該廳不支援此電影類型'
+        }
+      );
       return
     }
     const checkDateConflict = this.checkDateConflict(param.startDate, param.endDate, param.theaterId, param.id);
 
     if (checkDateConflict) {
       event.cancel = true;
-      alert('請確認播放時段');
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請確認播放時段'
+        }
+      );
       return
     }
 
 
     this.timetableService.updateTimetable(param).subscribe((res) => {
       if (res) {
-        alert(res.message);
+
+        this.textDialogService.openTextDialog(
+          {
+            title: '',
+            content: res.message!
+          }
+        );
         this.getTimetableList();
       }
     })
@@ -111,7 +131,13 @@ export class TimetablePageComponent implements OnInit {
     // console.log(event);
     this.timetableService.deleteTimetable(event.appointmentData._id).subscribe((res) => {
       if (res) {
-        alert(res.message);
+
+        this.textDialogService.openTextDialog(
+          {
+            title: '',
+            content: res.message!
+          }
+        );
       }
     });
   }
@@ -131,7 +157,13 @@ export class TimetablePageComponent implements OnInit {
     const checkCineType = this.isCineTypeMatch(param.theaterId, param.movieId);
     if (!checkCineType) {
       e.cancel = true;
-      alert('該廳不支援此電影類型');
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '該廳不支援此電影類型'
+        }
+      );
       return
     }
 
@@ -139,25 +171,37 @@ export class TimetablePageComponent implements OnInit {
 
     if (checkDateConflict) {
       e.cancel = true;
-      alert('請確認播放時段');
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請確認播放時段'
+        }
+      );
       return
     }
 
     this.timetableService.createTimetable(param as TimetableCreateReq).subscribe((res) => {
       if (res) {
-        alert(res.message);
+
+        this.textDialogService.openTextDialog(
+          {
+            title: '',
+            content: res.message!
+          }
+        );
         this.getTimetableList();
       }
     })
   }
 
   /**
-   * 
-   * @param newStartDate 
-   * @param newEndDate 
-   * @param theaterId 
-   * @param timetableId 
-   * @returns 
+   *
+   * @param newStartDate
+   * @param newEndDate
+   * @param theaterId
+   * @param timetableId
+   * @returns
    */
   checkDateConflict(newStartDate: any, newEndDate: any, theaterId: string, timetableId?: string) {
 

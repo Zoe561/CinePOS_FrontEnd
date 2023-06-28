@@ -3,6 +3,7 @@ import { BookingService } from '../../services/booking.service';
 import { catchError, concatMap, filter, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { STATIC_ROUTES } from 'projects/staff/src/app/core/constant/routes.constant';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Component({
   selector: 'app-select-seat',
@@ -14,6 +15,7 @@ export class SelectSeatComponent implements OnInit {
   constructor(
     private bookingService: BookingService,
     private router: Router,
+    private textDialogService:TextDialogService
   ) { }
 
   ngOnInit(): void {
@@ -38,7 +40,12 @@ export class SelectSeatComponent implements OnInit {
       .pipe(
         tap((res)=> {
           if(res.code === -1){
-            alert(res.message);
+            this.textDialogService.openErrorDialog(
+              {
+                title: '劃位錯誤',
+                content: res.message!
+              }
+            );
             this.getSeatData();
             this.bookingService.deleteTempSeatArray();
           }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from 'projects/manager/src/app/core/services/storage/storage.service';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 import { CheckLockReq, CheckLockRes, CreateTicketReq, CreateTicketRes, ScheduleListRes, SeatRes, StaffService, TicketTypeRes } from 'projects/staff/src/app/api/cinePOS-api';
 import { StorageEnum } from 'projects/staff/src/app/core/enums/storage/storage-enum';
 import { ShopCartInterface, seatInterface, ticketInterface } from 'projects/staff/src/app/core/interface/shop-cart.interface';
@@ -40,14 +41,20 @@ export class BookingService {
 
   constructor(
     private staffService: StaffService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private textDialogService:TextDialogService
   ) { }
 
   /**場次查詢API */
   v1StaffScheduleListGet$(reqData: { startDate: string, endDate: string }): Observable<ScheduleListRes> {
     return this.staffService.v1StaffScheduleListGet(reqData.startDate, reqData.endDate)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '場次查詢錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -55,7 +62,12 @@ export class BookingService {
   v1StaffSeatScheduleIdGet$(scheduleId: string): Observable<SeatRes> {
     return this.staffService.v1StaffSeatScheduleIdGet(scheduleId)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '取得場次座位表錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -63,7 +75,12 @@ export class BookingService {
   v1StaffTicketTypeGet$(): Observable<TicketTypeRes> {
     return this.staffService.v1StaffTicketTypeGet()
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '取得票種錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }
@@ -94,7 +111,12 @@ export class BookingService {
     }
     return this.staffService.v1StaffTicketPost(createTicketReq)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '新增電影票錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }

@@ -7,6 +7,7 @@ import { CommonAPIService } from '../../../core/services/common-api/common.servi
 import { ManagerMovieListPara, ManagerMovieListSuccessDataInnerCustomer } from '../../../core/interface/movie';
 import { Router } from '@angular/router';
 import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 
 @Component({
@@ -34,6 +35,8 @@ export class MovieListPageComponent implements OnInit {
     private _MoviePageService: MoviePageService,
     private _CommonAPIService: CommonAPIService,
     private _ChangeDetectorRef: ChangeDetectorRef,
+    private textDialogService: TextDialogService
+
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +70,13 @@ export class MovieListPageComponent implements OnInit {
 
     } else {
       this.formGroup.markAllAsTouched();
-      alert("請檢查欄位是否正確填寫！");
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請檢查欄位是否正確填寫！'
+        }
+      );
     };
   }
 
@@ -139,7 +148,13 @@ export class MovieListPageComponent implements OnInit {
 
     this._MoviePageService.updateReleaseStatus(para).subscribe(res => {
       console.log('更新上架狀態-成功res', res);
-      alert("更新上架狀態-成功");
+
+      this.textDialogService.openSuccessDialog(
+        {
+          title: '成功訊息',
+          content: '更新上架狀態-成功'
+        }
+      );
       this.getListAPI(this.getSearchCondition());
     });
   }
