@@ -111,7 +111,12 @@ export class BookingService {
     }
     return this.staffService.v1StaffTicketPost(createTicketReq)
       .pipe(
-        tap(res => res.code !== 1 && alert(res.message)),
+        tap(res => res.code !== 1 && this.textDialogService.openErrorDialog(
+          {
+            title: '新增電影票錯誤',
+            content: res.message!
+          }
+        )),
         filter(res => res.code === 1)
       )
   }

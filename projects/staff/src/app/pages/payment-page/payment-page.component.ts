@@ -8,6 +8,7 @@ import { ShopCartInterface } from '../../core/interface/shop-cart.interface';
 import { StorageEnum } from '../../core/enums/storage/storage-enum';
 import { StorageService } from '../../core/services/storage/storage.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Pipe({ name: 'customCurrency' })
 export class CustomCurrencyPipe implements PipeTransform {
@@ -50,7 +51,8 @@ export class PaymentPageComponent implements OnInit,OnDestroy {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private orderService: OrderService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private textDialogService:TextDialogService
   ) { }
 
   ngOnInit(): void {
@@ -202,17 +204,32 @@ export class PaymentPageComponent implements OnInit,OnDestroy {
 
           }else{
             /** 送出訂單失敗 */
-            alert(order.message);
+            this.textDialogService.openErrorDialog(
+              {
+                title: '送出訂單失敗',
+                content: order.message!
+              }
+            )
           }
         });
       }else{
         /** 付款金額不足 */
-        alert('付款金額不足, 請輸入付款金額');
+        this.textDialogService.openErrorDialog(
+          {
+            title: '錯誤',
+            content: '付款金額不足, 請輸入付款金額'
+          }
+        )
         console.log('shopCartData 不存在於 Local Storage 中');
       }
     } else {
       /** 購物車為空 */
-      alert('購物車為空, 請重新選擇商品');
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤',
+          content: '購物車為空, 請重新選擇商品'
+        }
+      )
       console.log('shopCartData 不存在於 Local Storage 中');
     }
   }
@@ -269,7 +286,12 @@ export class PaymentPageComponent implements OnInit,OnDestroy {
 
     /** 輸入付款金額 */
     if(prePayTotal > 100000){
-      alert('付款金額不得大於100,000元');
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤',
+          content: '付款金額不得大於100,000元'
+        }
+      )
       return;
       // 清付款款金額
       // this.calculate('zero', 'method');
