@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { Observable, Subject, catchError, filter, throwError } from 'rxjs';
 import { TimetableCreateReq, TimetableUpdateReq } from '../../../api/cinePOS-api';
 import { environment } from 'projects/manager/src/environments/environment';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 /** Request Method */
 export const enum HTTP_METHOD {
@@ -45,7 +46,8 @@ export class TimetableService {
   isPopupInvalidMsg = false;
   constructor(
     private http: HttpClient,
-    private managerService: ManagerService
+    private managerService: ManagerService,
+    private textDialogService: TextDialogService
   ) { }
 
   /**
@@ -169,7 +171,13 @@ export class TimetableService {
       hasResult = false;
       if (!this.isPopupInvalidMsg && response.message) {
         this.isPopupInvalidMsg = true;
-        alert(response.message);
+
+        this.textDialogService.openErrorDialog(
+          {
+            title: '錯誤訊息',
+            content: response.message!
+          }
+        )
         setTimeout(() => {
           this.isPopupInvalidMsg = false;
         });
@@ -197,7 +205,13 @@ export class TimetableService {
     }
     if (!this.isPopupInvalidMsg) {
       this.isPopupInvalidMsg = true;
-      alert('系統發生問題');
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '系統發生問題'
+        }
+      )
     }
     // return an observable with a user-facing error message
     return throwError('Something bad happened; please try again later.');

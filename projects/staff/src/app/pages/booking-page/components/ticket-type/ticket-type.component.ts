@@ -5,6 +5,7 @@ import { ticketInterface } from 'projects/staff/src/app/core/interface/shop-cart
 
 import { TicketTypeResData } from 'projects/staff/src/app/core/interface/ticketTypeResData';
 import { BookingService } from '../../services/booking.service';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 interface TicketSelect {
   isAdd: boolean;
@@ -18,7 +19,8 @@ interface TicketSelect {
 export class TicketTypeComponent implements OnInit {
   constructor(
     private router: Router,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private textDialogService:TextDialogService
   ) { }
   /**票種資料 */
   ticketTypeData: TicketTypeResData[] = [];
@@ -54,7 +56,12 @@ export class TicketTypeComponent implements OnInit {
   }
   goSelectSeat(): void {
     if (this.ticketData.length <= 0) {
-      alert('請選擇票種&票數');
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請選擇票種&票數'
+        }
+      );
       return;
     }
     // 先刪除歷史選到的票

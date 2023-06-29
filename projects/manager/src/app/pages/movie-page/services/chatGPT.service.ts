@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { HttpClient } from '@angular/common/http';
 import { commonResDataString } from '../../../core/interface/common/commonResDataString';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 
 
@@ -15,7 +16,8 @@ export class ChatGPTService {
   config = {};
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private textDialogService: TextDialogService
   ) {
 
   }
@@ -62,7 +64,12 @@ export class ChatGPTService {
       this.http.get<commonResDataString>('https://api.cine-pos.com/v1/common/chatGPT/key').subscribe(
         (res) => {
           if (res.code !== 1) {
-            alert(res.message);
+            this.textDialogService.openErrorDialog(
+              {
+                title: '取得ChatGPT錯誤',
+                content: res.message!
+              }
+            )
             reject(new Error('API request failed'));
           } else {
             resolve(res);

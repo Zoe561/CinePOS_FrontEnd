@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { filter, Observable, catchError, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { environment } from 'projects/manager/src/environments/environment';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 /** Request Method */
 export const enum HTTP_METHOD {
@@ -35,7 +36,8 @@ export class TheaterService {
   isPopupInvalidMsg = false;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private textDialogService: TextDialogService
   ) { }
 
   // 取得影廳列表
@@ -174,7 +176,13 @@ export class TheaterService {
       hasResult = false;
       if (!this.isPopupInvalidMsg && response.message) {
         this.isPopupInvalidMsg = true;
-        alert(response.message);
+
+        this.textDialogService.openErrorDialog(
+          {
+            title: '錯誤訊息',
+            content: response.message
+          }
+        )
         setTimeout(() => {
           this.isPopupInvalidMsg = false;
         });
@@ -202,7 +210,13 @@ export class TheaterService {
     }
     if (!this.isPopupInvalidMsg) {
       this.isPopupInvalidMsg = true;
-      alert('系統發生問題');
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '系統發生問題'
+        }
+      )
     }
     // return an observable with a user-facing error message
     return throwError('Something bad happened; please try again later.');

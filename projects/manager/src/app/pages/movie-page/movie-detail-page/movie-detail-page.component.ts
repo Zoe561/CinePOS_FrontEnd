@@ -11,6 +11,7 @@ import { MovieDetailCreateParameterCustomer, MovieDetailUpdateParameterCustomer 
 import { STATIC_ROUTES } from '../../../core/constant/routes.constant';
 import { ChatGPTService } from '../services/chatGPT.service';
 import { LoadingService } from 'projects/share-libs/src/public-api';
+import { TextDialogService } from 'projects/share-libs/src/lib/features/text-dialog/services/text-dialog.service';
 
 @Component({
   selector: 'app-movie-detail-page',
@@ -63,7 +64,8 @@ export class MovieDetailPageComponent implements OnInit, AfterViewInit {
     private _CommonAPIService: CommonAPIService,
     private _ChatGPTService: ChatGPTService,
     private _ChangeDetectorRef: ChangeDetectorRef,
-    private _LoadingService: LoadingService
+    private _LoadingService: LoadingService,
+    private textDialogService: TextDialogService
   ) {
     this._ChatGPTService.getChatGPTToken();
   }
@@ -143,7 +145,12 @@ export class MovieDetailPageComponent implements OnInit, AfterViewInit {
       this._LoadingService.loading(false);
 
     } else {
-      alert("請至少輸入電影英文名稱、電影簡介，或是目前發想的中文片名！");
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請至少輸入電影英文名稱、電影簡介，或是目前發想的中文片名！'
+        }
+      );
     };
   }
 
@@ -220,7 +227,12 @@ export class MovieDetailPageComponent implements OnInit, AfterViewInit {
       this.description.setValue(newAdvice.choices[0].message.content);
 
     } else {
-      alert("請先填寫電影描述，才能使用此功能！");
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請先填寫電影描述，才能使用此功能！'
+        }
+      );
     };
   }
 
@@ -307,7 +319,12 @@ export class MovieDetailPageComponent implements OnInit, AfterViewInit {
 
     } else {
       this.formGroup.markAllAsTouched();
-      alert("請填寫必填欄位");
+      this.textDialogService.openErrorDialog(
+        {
+          title: '錯誤訊息',
+          content: '請填寫必填欄位'
+        }
+      );
     };
   }
 
@@ -349,7 +366,12 @@ export class MovieDetailPageComponent implements OnInit, AfterViewInit {
     this._MoviePageService.createMovieDetail(para).subscribe(res => {
       console.log('新增電影資訊-成功res', res);
       this._Router.navigate([STATIC_ROUTES.MOVIE, STATIC_ROUTES.DETAIL, (res.data as MovieDetailCreateParameterCustomer)._id]);
-      alert(res.message);
+      this.textDialogService.openErrorDialog(
+        {
+          title: '新增電影資訊錯誤',
+          content: res.message!
+        }
+      );
     });
   }
 
@@ -359,7 +381,13 @@ export class MovieDetailPageComponent implements OnInit, AfterViewInit {
     this._MoviePageService.updateMovieDetail(para).subscribe(res => {
       console.log('更新電影資訊-成功res', res);
       this._Router.navigate([STATIC_ROUTES.MOVIE, STATIC_ROUTES.DETAIL, (res.data as MovieDetailUpdateParameterCustomer)._id]);
-      alert(res.message);
+
+      this.textDialogService.openErrorDialog(
+        {
+          title: '更新電影資訊錯誤',
+          content: res.message!
+        }
+      );
     });
   }
 
