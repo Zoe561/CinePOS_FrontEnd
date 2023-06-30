@@ -406,9 +406,9 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
       console.log('新增影廳資訊-成功res', res);
       this.router.navigate([STATIC_ROUTES.THEATER, res.data.theater._id]);
 
-      this.textDialogService.openErrorDialog(
+      this.textDialogService.openSuccessDialog(
         {
-          title: '新增影廳錯誤',
+          title: '成功訊息',
           content: res.message!
         }
       );
@@ -421,9 +421,9 @@ export class TheaterDetailPageComponent implements OnInit, AfterViewInit {
       console.log('更新影廳資訊-成功res', res);
       this.router.navigate([STATIC_ROUTES.THEATER, this.theaterId]);
 
-      this.textDialogService.openErrorDialog(
+      this.textDialogService.openSuccessDialog(
         {
-          title: '更新影廳錯誤',
+          title: '成功訊息',
           content: res.message!
         }
       );
