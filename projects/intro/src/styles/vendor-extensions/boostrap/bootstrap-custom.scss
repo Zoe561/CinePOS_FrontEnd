@@ -41,6 +41,10 @@
   min-height: 80vh;
 }
 
+.w60px{
+  min-width: 60px;
+}
+
 
 .navbar {
   display: flex;
@@ -64,7 +68,7 @@
 linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 }
 
-@media (max-width: 576px) {
+@media (max-width: 1199px) {
   .display-1{
     font-size: 34px;
     line-height: 120%;
@@ -82,3 +86,5 @@ linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
     font-size: 12px !important;
   }
 }
+
+
