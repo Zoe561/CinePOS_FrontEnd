@@ -1,5 +1,5 @@
 
-a{
+  a{
     text-decoration:none;
   }
 
@@ -67,9 +67,14 @@ a{
     border-radius: 15px;
   }
 
-  .home-cont-icon{
+  .container-features-img{
     width: 558px;
     max-width: 100%;
+  }
+  .home-cont-icon{
+    width: 558px;
+    max-width: 558px;
+    margin-top: 2rem;
   }
 
   .navbar-nav{
@@ -150,7 +155,7 @@ a{
   }
 
   .box-proccess{
-    padding: 128px;
+    padding: 68px;
     color: white;
   }
 
@@ -208,12 +213,13 @@ a{
   .experience-box{
     width: 323px;
     height: 380px;
-    border-radius: 12px;
+    border-radius: 40px;
     background-repeat: no-repeat; /* 設定背景重複方式 */
     background-position: bottom -105px right -105px; /* 設定背景位置 */
     background-size: contain; /* 設定背景尺寸 */
-    backdrop-filter: blur(10px); /* 設定模糊效果 */
+    backdrop-filter: blur(20px); /* 設定模糊效果 */
     opacity: 0.6;
+    transition: all;
   }
 
   .experience-box:hover{
@@ -258,13 +264,21 @@ a{
   }
 
 
-  @media (max-width: 1440px) {
+  @media (max-width: 1400px) {
+
+    .home-bg-banner{
+      padding-top: 0;
+    }
+
+    .home-bg-banner, .container-features{
+      min-height: 815px;
+    }
 
     .pross-cont-img{
       border:solid 1px white;
       border-radius: 12px;
       width: 100%;
-      height: 420px;
+      height: 380px;
       background-position: center center;
       background-size: cover;
       background-repeat: no-repeat;
@@ -279,7 +293,7 @@ a{
     }
 
     .box-proccess{
-      padding: 30px;
+      padding: 20px;
     }
 
     .cont-icon-statistics{
@@ -290,6 +304,7 @@ a{
       max-width: 100%;
       overflow: hidden;
       min-height: 608px;
+      top:80px;
     }
 
     .bg-statistics{
@@ -336,11 +351,14 @@ a{
       width: 100%;
       display: flex;
     }
-
-
   }
 
   @media (max-width: 990px) {
+
+    .navbar{
+      margin-left: 15px;
+      margin-right: 15px;
+    }
 
     .cont-icon-statistics{
       width: 400px;
@@ -349,8 +367,16 @@ a{
       right: -100px;
     }
 
-    .home-bg-banner, .container-features{
-      min-height: 715px;
+    .pross-cont{
+      padding: 20px;
+    }
+
+    .porss-nav li{
+      margin-right: 0;
+    }
+
+    .porss-nav li::before {
+      margin-right: 15px; /* 可选的，设置图标与文本之间的间距 */
     }
 
     .container-features{
@@ -364,13 +390,13 @@ a{
 
     .container-features-text{
       position: absolute;
-      top:400px;
+      top:550px;
       left: 0px;
     }
 
     .container-features-img{
       position: absolute;
-      right: -160px;
+      right: -280px;
       top:80px;
       img{
         width: 380px;
@@ -378,16 +404,19 @@ a{
     }
 
     .container-team{
-      padding: 35px 0;
+      padding: 0;
     }
-
 
     .team-nav{
       li{
-        width: 380px;
-        margin: 15px 9px;
-        padding: 20px;
+        width: 100%;
+        margin: 15px;
       }
+    }
+
+    .team-nav li:first-child{
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
     .experience-box{
@@ -396,6 +425,7 @@ a{
 
     .experience-box-title{
       height: auto;
+      width: 325px;
     }
 
     .experience-box{
@@ -422,12 +452,15 @@ a{
     .container-features-img{
 
       position: absolute;
-      right: -120px;
+      right: -180px;
       img{
-        width: 300px;
+        width: 320px;
       }
     }
 
+    .container-features-text{
+      top:500px;
+    }
 
     .pross-cont-img{
       height: 230px;
@@ -441,5 +474,18 @@ a{
     }
 
 
+
+  }
+
+  @media (max-width: 440px) {
+
+    .container-features-img{
+
+      position: absolute;
+      right: -100px;
+      img{
+        width: 320px;
+      }
+    }
 
   }
